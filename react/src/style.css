@@ -1,0 +1,25 @@
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.light {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
