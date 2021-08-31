@@ -7,21 +7,25 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="box"></div>
+    <div
+      id="box"
+      style="
+        width: 500px;
+        height: 500px;
+        background-color: antiquewhite;
+        margin: 0 auto;
+      "
+    ></div>
     <script src="https://unpkg.com/xstate@4/dist/xstate.js"></script>
     <script>
-      const { createMachine, actions, interpret ,assign} = XState;
+      const { createMachine, actions, interpret, assign } = XState;
       const elBox = document.querySelector("#box");
 
-      const setPoint = (context, event) => {
-        elBox.dataset.point = `${event.clientX} - ${event.clientY} - ${context.count}`;
+      const func2 = (context, event) => {
+        elBox.dataset.point = `鼠标点击的X轴：${event.clientX} - 鼠标点击的y轴：${event.clientY} - ${context.count}`;
       };
 
-      const countAssign = assign({
-        count: (context, event) => {
-          return context.count + 1;
-        }
-      });
+      const func1 = assign({ count: ({ count }) => count + 1 });
 
       const machine = createMachine({
         initial: "idle",
@@ -32,10 +36,8 @@
           idle: {
             on: {
               mousedown: {
-                // Add your action here
-                // ...
                 target: "dragging",
-                actions: [setPoint, countAssign]
+                actions: [func2, func1]
               }
             }
           },
@@ -51,21 +53,24 @@
 
       const service = interpret(machine);
 
-      service.onTransition(state => {
-        elBox.dataset.state = state.value;
-      });
-
-      service.start();
+      service
+        .onTransition(state => {
+          console.log(state.changed ? "update" : "mount");
+          //每次发生状态转换（包括初始状态）时都会调用状态侦听器
+          elBox.dataset.state = state.value;
+        })
+        .start();
 
       elBox.addEventListener("mousedown", event => {
-        console.log(event)
         service.send(event);
+        console.log(event, service.state.value);
       });
 
       elBox.addEventListener("mouseup", event => {
-        console.log(event)
         service.send(event);
+        console.log(service.state.value, service.state.content);
       });
+      console.log(service.state.value, service.state.content);
     </script>
   </body>
 </html>

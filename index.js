@@ -1,5 +1,5 @@
 import { createMachine, interpret, assign } from "xstate";
-
+//xstate 是一個實作 有限狀態機 並使用 statecharts 將流程狀態視覺化的狀態管理 library.
 const lightMachine = createMachine(
   {
     //初始状态通过 initial 表达
@@ -66,12 +66,12 @@ console.log(state1.nextEvents); // true
  * 比如可以透过 rxjs 的 from 把 service start 后的 service 转换为 rxjs 的 observable！
  */
 
-// const service = interpret(lightMachine);
-// service.start(); //进行启动
-// console.log(service.state.value); // 打印初始值
-// service.send("CLICK"); // 执行对应的状态操作
-// console.log(service.state.value); // 打印操作之后的值
-// service.stop(); //停止
+const service = interpret(lightMachine);
+service.start(); //进行启动
+console.log(service.state.value); // 打印初始值
+service.send("CLICK"); // 执行对应的状态操作
+console.log(service.state.value); // 打印操作之后的值
+service.stop(); //停止
 
 /**xstate 与 react 结合
  * https://codesandbox.io/s/react-xstate-example-1-ipsft?from-embed=&file=/src/index.js:310-322
