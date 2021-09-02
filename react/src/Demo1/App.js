@@ -45,13 +45,7 @@ function App() {
       {state.matches(LIGHT_STATES.RED) && <RedLight />}
       {state.matches(LIGHT_STATES.GREEN) && <GreenLight />}
       {state.matches(LIGHT_STATES.YELLOW) && <YellowLight />}
-      <button
-        onClick={() => {
-          send(LIGHT_EVENTS.CLICK);
-        }}
-      >
-        click me
-      </button>
+      <button onClick={() => send(LIGHT_EVENTS.CLICK)}>click me</button>
     </div>
   );
 }

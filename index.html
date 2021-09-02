@@ -29,34 +29,24 @@
 
       const machine = createMachine({
         initial: "idle",
-        context: {
-          count: 0
-        },
+        context: { count: 0 },
         states: {
           idle: {
             on: {
-              mousedown: {
-                target: "dragging",
-                actions: [func2, func1]
-              }
+              mousedown: { target: "dragging", actions: [func2, func1] }
             }
           },
           dragging: {
-            on: {
-              mouseup: {
-                target: "idle"
-              }
-            }
+            on: { mouseup: { target: "idle" } }
           }
         }
       });
 
       const service = interpret(machine);
 
-      service
+      service //每次发生状态转换（包括初始状态）时都会调用状态侦听器
         .onTransition(state => {
           console.log(state.changed ? "update" : "mount");
-          //每次发生状态转换（包括初始状态）时都会调用状态侦听器
           elBox.dataset.state = state.value;
         })
         .start();
